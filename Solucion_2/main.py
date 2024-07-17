@@ -18,7 +18,7 @@ def main():
     input_dir = os.path.dirname(__file__) + "/fotos/"
 
     # Obtiene la lista de todas las imágenes .jpg en el directorio
-    imagenes = glob.glob(os.path.join(input_dir, "14.jpg"))     #3 y4 funcan
+    imagenes = glob.glob(os.path.join(input_dir, "*.jpg"))     #3 y4 funcan
 
     for imagen_path in imagenes:
         # Lee la imagen
@@ -93,12 +93,10 @@ def main():
                 square_image = cv.copyMakeBorder(cropped_image, margen, margen, 0, 0, cv.BORDER_CONSTANT, value=[0, 0, 0])
                 lab=classes[torch.argmax(soft(model(transform(cv.resize(square_image, (400,400) ))), dim=1)).numpy()]
                 Encontrados_1.append(lab)
-                # cv.imwrite(f"temp_{nombre_sin_ext}_{i}_{lab}.jpg", square_image)
             else:
                 square_image2 = cv.copyMakeBorder(cropped_image, 0, 0, -margen, -margen, cv.BORDER_CONSTANT, value=[0, 0, 0])
                 lab=classes[torch.argmax(soft(model(transform(cv.resize(square_image2, (400,400) ))), dim=1)).numpy()]
                 Encontrados_2.append(lab)
-                # cv.imwrite(f"temp_{nombre_sin_ext}_{i}_{lab}.jpg", square_image2)
         Total = Encontrados_1 + Encontrados_2
 
         set_classes = set(classes)
@@ -114,12 +112,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Resultados:
-# Prueba 8: No faltan herramientas. Destornillador confundido por llave.
-# Prueba 4: Falta Alicate y destornillador. Destornillador confundido por llave.
-# Prueba 7: No faltan herramientas. [Todo bien]
-# Prueba 9: No faltan herramientas. [Todo bien]
-# Prueba: Falta Llave.              [Todo bien]
-# Prueba 2: No faltan herramientas. [Todo bien]
-# Prueba 6: No faltan herramientas. [Todo bien]
